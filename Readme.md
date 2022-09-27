@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть»
 
 * Студент: [Айдар Шайхуллин](https://up.htmlacademy.ru/univer-js3-urfu/1/user/2231431).
-* Наставник: [Евгений Колегов](https://htmlacademy.ru/profile/id21780).
+* Наставник: [Евгений Колегов ](https://htmlacademy.ru/profile/id21780).
 
 ---
 
