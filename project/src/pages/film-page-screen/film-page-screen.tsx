@@ -1,8 +1,9 @@
 import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/film-card/film-card';
 import SignOut from '../../components/sign-out/sign-out';
+import Logo from '../../components/logo/logo';
 
-function MoviePageScreen() {
+function FilmPageScreen() {
   return (
     <>
       <section className="film-card film-card--full">
@@ -14,13 +15,7 @@ function MoviePageScreen() {
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
-            <div className="logo">
-              <a href="main.html" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
+            <Logo />
 
             <SignOut />
           </header>
@@ -139,4 +134,4 @@ function MoviePageScreen() {
   );
 }
 
-export default MoviePageScreen;
+export default FilmPageScreen;
