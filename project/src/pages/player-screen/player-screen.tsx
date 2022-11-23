@@ -1,9 +1,24 @@
-function PlayerScreen() {
-  return (
-    <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+import FilmType from '../../types/film-type';
+import {Link, Navigate, useParams} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
-      <button type="button" className="player__exit">Exit</button>
+type PlayerScreenProps = {
+  films: FilmType[];
+}
+
+function PlayerScreen(props: PlayerScreenProps) {
+  const id = Number(useParams().id);
+  const film = props.films.find((f) => f.id === id);
+
+  if (!film){
+    return (<Navigate to={AppRoute.NotFound} />);
+  }
+  else
+  {return (
+    <div className="player">
+      <video src={film.videoLink} className="player__video" poster={film.backgroundImage} />
+
+      <Link to={`/films/${film.id}`} className="player__exit">Exit</Link>
 
       <div className="player__controls">
         <div className="player__controls-row">
@@ -32,7 +47,7 @@ function PlayerScreen() {
         </div>
       </div>
     </div>
-  );
+  );}
 }
 
 export default PlayerScreen;
