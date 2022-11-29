@@ -5,17 +5,14 @@ import FilmType from '../../types/film-type';
 import FilmList from '../../components/film-list/film-list';
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../const';
+import Tabs from "../../components/tabs/tabs";
+import ReviewType from "../../types/review-type";
+import RelatedFilms from "../../components/related-films/related-films";
 
-function getRatingLevel(ratingCount: number): string {
-  if (ratingCount < 3) {return 'Bad';}
-  else if (ratingCount < 5) {return 'Normal';}
-  else if (ratingCount < 8) {return 'Good';}
-  else if (ratingCount < 10) {return 'Very good';}
-  else {return 'Awesome';}
-}
 
 type FilmPageScreenProps = {
   films: FilmType[];
+  reviews: ReviewType[];
 }
 
 function FilmPageScreen(props: FilmPageScreenProps) {
@@ -75,40 +72,7 @@ function FilmPageScreen(props: FilmPageScreenProps) {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={`${film.name} poster`} width="218" height="327"/>
             </div>
-
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{getRatingLevel(film.rating)}</span>
-                  <span className="film-rating__count">{film.scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{film.description}</p>
-
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-
-                <p className="film-card__starring">
-                  <strong>Starring: {film.starring.join(', ')}</strong>
-                </p>
-              </div>
-            </div>
+            <Tabs film={film} reviews={props.reviews} />
           </div>
         </div>
       </section>
@@ -118,7 +82,7 @@ function FilmPageScreen(props: FilmPageScreenProps) {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <FilmList films={props.films} />
+            <RelatedFilms films={props.films} currentFilm={film} />
           </div>
         </section>
 
