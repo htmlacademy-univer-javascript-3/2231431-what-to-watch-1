@@ -7,10 +7,16 @@ type FilmListProps = {
 }
 
 function FilmList(props: FilmListProps): JSX.Element {
-  const [, setActiveFilmCard] = useState<number>(NaN); // добавить потом activeFilmCard
+  const [activeFilmCard, setActiveFilmCard] = useState<number>(NaN);
   return (
     <Fragment>
-      {props.films.map((film)=>(<FilmCard key={film.id} film={film} setActiveFilmCard={setActiveFilmCard}/>))}
+      {props.films.map((film)=>(
+        <FilmCard
+          key={film.id}
+          film={film}
+          setActiveFilmCard={setActiveFilmCard}
+          isActive={activeFilmCard === film.id}
+        />))}
     </Fragment>);
 }
 
