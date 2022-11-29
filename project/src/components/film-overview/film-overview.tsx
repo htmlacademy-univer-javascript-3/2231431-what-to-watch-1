@@ -1,6 +1,6 @@
-import FilmType from "../../types/film-type";
+import FilmType from '../../types/film-type';
 
-type OverviewProps = {
+type FilmOverviewProps = {
   film: FilmType;
 }
 
@@ -12,7 +12,7 @@ function getRatingLevel(ratingCount: number): string {
   else {return 'Awesome';}
 }
 
-function Overview(props: OverviewProps) {
+function FilmOverview(props: FilmOverviewProps) {
   return (
     <>
       <div className="film-rating">
@@ -35,4 +35,4 @@ function Overview(props: OverviewProps) {
     </>
   );
 }
-export default Overview;
+export default FilmOverview;

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import FILMS from './mocks/films';
-import REVIEWS from "./mocks/reviews";
+import REVIEWS from './mocks/reviews';
 
 
 const root = ReactDOM.createRoot(

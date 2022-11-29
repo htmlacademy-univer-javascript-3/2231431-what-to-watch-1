@@ -9,7 +9,7 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import FilmType from '../../types/film-type';
-import ReviewType from "../../types/review-type";
+import ReviewType from '../../types/review-type';
 
 type AppProps = {
   films: FilmType[];

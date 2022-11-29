@@ -2,12 +2,11 @@ import Footer from '../../components/footer/footer';
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
 import FilmType from '../../types/film-type';
-import FilmList from '../../components/film-list/film-list';
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import Tabs from "../../components/tabs/tabs";
-import ReviewType from "../../types/review-type";
-import RelatedFilms from "../../components/related-films/related-films";
+import Tabs from '../../components/tabs/tabs';
+import ReviewType from '../../types/review-type';
+import RelatedFilms from '../../components/related-films/related-films';
 
 
 type FilmPageScreenProps = {

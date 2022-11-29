@@ -1,18 +1,18 @@
 import {Fragment} from 'react';
-import FilmType from "../../types/film-type";
+import FilmType from '../../types/film-type';
 
 
-type DetailsType = {
+type FilmDetailsProps = {
   film: FilmType;
 }
 
 function timeToString(time: number) {
   const hours = (time - time % 60) / 60;
   const minutes = time % 60;
-  return `${hours}h ${minutes}m`
+  return `${hours}h ${minutes}m`;
 }
 
-function Details(props: DetailsType) {
+function FilmDetails(props: FilmDetailsProps) {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -45,4 +45,4 @@ function Details(props: DetailsType) {
     </div>
   );
 }
-export default Details;
+export default FilmDetails;
