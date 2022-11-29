@@ -1,11 +1,11 @@
-import FilmCard from '../../components/film-card/film-card';
 import Footer from '../../components/footer/footer';
 import SignOut from '../../components/sign-out/sign-out';
+import FilmType from '../../types/film-type';
+import FilmList from '../../components/film-list/film-list';
+import {Link} from 'react-router-dom';
 
 type MainScreenProps = {
-  nameFilm: string;
-  genreFilm: string;
-  releaseYearFilm: number;
+  films: FilmType[];
 }
 
 function MainScreen(props: MainScreenProps): JSX.Element {
@@ -13,7 +13,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={props.films[0].backgroundImage} alt={props.films[0].name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -33,28 +33,28 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
+              <img src={props.films[0].posterImage} alt={`${props.films[0].name} poster`} width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.nameFilm}</h2>
+              <h2 className="film-card__title">{props.films[0].name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.genreFilm}</span>
-                <span className="film-card__year">{props.releaseYearFilm}</span>
+                <span className="film-card__genre">{props.films[0].genre}</span>
+                <span className="film-card__year">{props.films[0].released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={`/player/${props.films[0].id}`} className="btn btn--play film-card__button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
+                    <use xlinkHref="#play-s"/>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                    <use xlinkHref="#add"/>
                   </svg>
                   <span>My list</span>
                   <span className="film-card__count">9</span>
@@ -103,105 +103,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
           </ul>
 
           <div className="catalog__films-list">
-            <FilmCard imgSrc={'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'}
-              imgAlt={'Fantastic Beasts: The Crimes of Grindelwald'}
-              filmName={'Fantastic Beasts: The Crimes of Grindelwald'}
-            />
-
-            <FilmCard imgSrc={'img/bohemian-rhapsody.jpg'}
-              imgAlt={'Bohemian Rhapsody'}
-              filmName={'Bohemian Rhapsody'}
-            />
-
-            <FilmCard imgSrc={'img/macbeth.jpg'}
-              imgAlt={'Macbeth'}
-              filmName={'Macbeth'}
-            />
-
-            <FilmCard imgSrc={'img/aviator.jpg'}
-              imgAlt={'Aviator'}
-              filmName={'Aviator'}
-            />
-
-            <FilmCard imgSrc={'img/we-need-to-talk-about-kevin.jpg'}
-              imgAlt={'We need to talk about Kevin'}
-              filmName={'We need to talk about Kevin'}
-            />
-
-            <FilmCard imgSrc={'img/what-we-do-in-the-shadows.jpg'}
-              imgAlt={'What We Do in the Shadows'}
-              filmName={'What We Do in the Shadows'}
-            />
-
-            <FilmCard imgSrc={'img/revenant.jpg'}
-              imgAlt={'Revenant'}
-              filmName={'Revenant'}
-            />
-
-            <FilmCard imgSrc={'img/johnny-english.jpg'}
-              imgAlt={'Johnny English'}
-              filmName={'Johnny English'}
-            />
-
-            <FilmCard imgSrc={'img/shutter-island.jpg'}
-              imgAlt={'Shutter Island'}
-              filmName={'Shutter Island'}
-            />
-
-            <FilmCard imgSrc={'img/pulp-fiction.jpg'}
-              imgAlt={'Pulp Fiction'}
-              filmName={'Pulp Fiction'}
-            />
-
-            <FilmCard imgSrc={'img/no-country-for-old-men.jpg'}
-              imgAlt={'No Country for Old Men'}
-              filmName={'No Country for Old Men'}
-            />
-
-            <FilmCard imgSrc={'img/snatch.jpg'}
-              imgAlt={'Snatch'}
-              filmName={'Snatch'}
-            />
-
-            <FilmCard imgSrc={'img/moonrise-kingdom.jpg'}
-              imgAlt={'Moonrise Kingdom'}
-              filmName={'Moonrise Kingdom'}
-            />
-
-            <FilmCard imgSrc={'img/seven-years-in-tibet.jpg'}
-              imgAlt={'Seven Years in Tibet'}
-              filmName={'Seven Years in Tibet'}
-            />
-
-            <FilmCard imgSrc={'img/midnight-special.jpg'}
-              imgAlt={'Midnight Special'}
-              filmName={'Midnight Special'}
-            />
-
-            <FilmCard imgSrc={'img/war-of-the-worlds.jpg'}
-              imgAlt={'War of the Worlds'}
-              filmName={'War of the Worlds'}
-            />
-
-            <FilmCard imgSrc={'img/dardjeeling-limited.jpg'}
-              imgAlt={'Dardjeeling Limited'}
-              filmName={'Dardjeeling Limited'}
-            />
-
-            <FilmCard imgSrc={'img/orlando.jpg'}
-              imgAlt={'Orland'}
-              filmName={'Orlando'}
-            />
-
-            <FilmCard imgSrc={'img/mindhunter.jpg'}
-              imgAlt={'Mindhunter'}
-              filmName={'Mindhunter'}
-            />
-
-            <FilmCard imgSrc={'img/midnight-special.jpg'}
-              imgAlt={'Midnight Special'}
-              filmName={'Midnight Special'}
-            />
+            <FilmList films={props.films} />
           </div>
 
           <div className="catalog__more">

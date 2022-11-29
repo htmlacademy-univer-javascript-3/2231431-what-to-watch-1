@@ -8,11 +8,10 @@ import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+import FilmType from '../../types/film-type';
 
 type AppProps = {
-  nameFilm: string;
-  genreFilm: string;
-  releaseYearFilm: number;
+  films: FilmType[];
 }
 
 function App(props: AppProps): JSX.Element {
@@ -21,7 +20,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen {...props} />}
+          element={<MainScreen films={props.films} />}
         />
         <Route
           path={AppRoute.SignIn}
@@ -31,23 +30,23 @@ function App(props: AppProps): JSX.Element {
           path={AppRoute.MyList}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={AuthorizationStatus.Auth}
             >
-              <MyListScreen />
+              <MyListScreen films={props.films} />
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Film}
-          element={<FilmPageScreen />}
+          element={<FilmPageScreen films={props.films} />}
         />
         <Route
           path={AppRoute.AddReview}
-          element={<AddReviewScreen />}
+          element={<AddReviewScreen films={props.films} />}
         />
         <Route
           path={AppRoute.Player}
-          element={<PlayerScreen />}
+          element={<PlayerScreen films={props.films} />}
         />
         <Route
           path={AppRoute.NotFound}
