@@ -3,17 +3,19 @@ import SignOut from '../../components/sign-out/sign-out';
 import FilmType from '../../types/film-type';
 import FilmList from '../../components/film-list/film-list';
 import {Link} from 'react-router-dom';
+import GenresList from "../../components/genres-list/genres-list";
+import {useAppSelector} from "../../hooks";
 
-type MainScreenProps = {
-  films: FilmType[];
-}
 
-function MainScreen(props: MainScreenProps): JSX.Element {
+
+function MainScreen(): JSX.Element {
+  const films = useAppSelector(state => state.films);
+  const filteredFilms = useAppSelector(state => state.filteredFilms);
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={props.films[0].backgroundImage} alt={props.films[0].name}/>
+          <img src={films[0].backgroundImage} alt={films[0].name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -33,20 +35,20 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={props.films[0].posterImage} alt={`${props.films[0].name} poster`} width="218"
+              <img src={films[0].posterImage} alt={`${films[0].name} poster`} width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.films[0].name}</h2>
+              <h2 className="film-card__title">{films[0].name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.films[0].genre}</span>
-                <span className="film-card__year">{props.films[0].released}</span>
+                <span className="film-card__genre">{films[0].genre}</span>
+                <span className="film-card__year">{films[0].released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${props.films[0].id}`} className="btn btn--play film-card__button">
+                <Link to={`/player/${films[0].id}`} className="btn btn--play film-card__button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"/>
                   </svg>
@@ -69,41 +71,10 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
+          <GenresList/>
 
           <div className="catalog__films-list">
-            <FilmList films={props.films} />
+            <FilmList films={filteredFilms} />
           </div>
 
           <div className="catalog__more">
