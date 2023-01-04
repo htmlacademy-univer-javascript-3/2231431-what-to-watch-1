@@ -1,12 +1,10 @@
-// @ts-ignore
 import React from 'react';
-// @ts-ignore
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import FILMS from './mocks/films';
 import REVIEWS from './mocks/reviews';
-import {Provider} from "react-redux";
-import store from "./store";
+import {Provider} from 'react-redux';
+import store from './store';
 
 
 const root = ReactDOM.createRoot(

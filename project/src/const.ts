@@ -14,5 +14,5 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const ALL_GENRES = 'All genres'
-export const DEFAULT_GENRE = ALL_GENRES
+export const ALL_GENRES = 'All genres';
+export const DEFAULT_GENRE = ALL_GENRES;

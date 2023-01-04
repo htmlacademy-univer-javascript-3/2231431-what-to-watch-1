@@ -1,16 +1,14 @@
 import Footer from '../../components/footer/footer';
 import SignOut from '../../components/sign-out/sign-out';
-import FilmType from '../../types/film-type';
 import FilmList from '../../components/film-list/film-list';
 import {Link} from 'react-router-dom';
-import GenresList from "../../components/genres-list/genres-list";
-import {useAppSelector} from "../../hooks";
-
+import GenresList from '../../components/genres-list/genres-list';
+import {useAppSelector} from '../../hooks';
 
 
 function MainScreen(): JSX.Element {
-  const films = useAppSelector(state => state.films);
-  const filteredFilms = useAppSelector(state => state.filteredFilms);
+  const films = useAppSelector((state) => state.films);
+  const filteredFilms = useAppSelector((state) => state.filteredFilms);
   return (
     <>
       <section className="film-card">
