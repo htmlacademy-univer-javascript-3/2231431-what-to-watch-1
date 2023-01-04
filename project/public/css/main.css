@@ -355,6 +355,15 @@ main {
   -webkit-clip-path: inset(100%);
           clip-path: inset(100%); }
 
+.reset-default-button-style {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 .add-review {
   padding-top: 62px;
   width: 520px;

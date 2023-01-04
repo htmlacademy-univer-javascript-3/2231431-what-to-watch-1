@@ -9,9 +9,11 @@ import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import FilmType from '../../types/film-type';
+import ReviewType from '../../types/review-type';
 
 type AppProps = {
   films: FilmType[];
+  reviews: ReviewType[];
 }
 
 function App(props: AppProps): JSX.Element {
@@ -38,7 +40,7 @@ function App(props: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Film}
-          element={<FilmPageScreen films={props.films} />}
+          element={<FilmPageScreen films={props.films} reviews={props.reviews} />}
         />
         <Route
           path={AppRoute.AddReview}
