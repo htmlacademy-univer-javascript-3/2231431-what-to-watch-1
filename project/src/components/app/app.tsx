@@ -10,6 +10,8 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import FilmType from '../../types/film-type';
 import ReviewType from '../../types/review-type';
+import {useAppDispatch} from '../../hooks';
+import {fillFilms, filterFilmsByCurrentGenre} from '../../store/action';
 
 type AppProps = {
   films: FilmType[];
@@ -17,12 +19,16 @@ type AppProps = {
 }
 
 function App(props: AppProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  dispatch(fillFilms(props.films));
+  dispatch(filterFilmsByCurrentGenre());
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen films={props.films} />}
+          element={<MainScreen/>}
         />
         <Route
           path={AppRoute.SignIn}
