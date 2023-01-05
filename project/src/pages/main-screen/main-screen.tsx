@@ -4,11 +4,15 @@ import FilmList from '../../components/film-list/film-list';
 import {Link} from 'react-router-dom';
 import GenresList from '../../components/genres-list/genres-list';
 import {useAppSelector} from '../../hooks';
+import {useState} from 'react';
+import {FILM_IN_PAGE} from '../../const';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 
 function MainScreen(): JSX.Element {
   const films = useAppSelector((state) => state.films);
   const filteredFilms = useAppSelector((state) => state.filteredFilms);
+  const [showedFilmsCount, changeShowedFilmsCount] = useState<number>(FILM_IN_PAGE);
   return (
     <>
       <section className="film-card">
@@ -69,15 +73,14 @@ function MainScreen(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList/>
+          <GenresList buttonClickHandler={() => (changeShowedFilmsCount(FILM_IN_PAGE))}/>
 
           <div className="catalog__films-list">
-            <FilmList films={filteredFilms} />
+            <FilmList films={filteredFilms.slice(0, showedFilmsCount)} />
           </div>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {filteredFilms.length > showedFilmsCount &&
+          <ShowMoreButton buttonClickHandler={() => (changeShowedFilmsCount(showedFilmsCount + FILM_IN_PAGE))}/>}
         </section>
 
         <Footer />
