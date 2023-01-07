@@ -1,22 +1,22 @@
 import Footer from '../../components/footer/footer';
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
-import FilmType from '../../types/film-type';
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import Tabs from '../../components/tabs/tabs';
 import ReviewType from '../../types/review-type';
 import RelatedFilms from '../../components/related-films/related-films';
+import {useAppSelector} from '../../hooks';
 
 
 type FilmPageScreenProps = {
-  films: FilmType[];
   reviews: ReviewType[];
 }
 
 function FilmPageScreen(props: FilmPageScreenProps) {
   const id = Number(useParams().id);
-  const film = props.films.find((f) => f.id === id);
+  const films = useAppSelector((state) => state.films);
+  const film = films.find((f) => f.id === id);
 
   if (!film){
     return (<Navigate to={AppRoute.NotFound} />);
@@ -81,7 +81,7 @@ function FilmPageScreen(props: FilmPageScreenProps) {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <RelatedFilms films={props.films} currentFilm={film} />
+            <RelatedFilms films={films} currentFilm={film} />
           </div>
         </section>
 

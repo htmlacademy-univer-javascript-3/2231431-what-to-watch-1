@@ -8,61 +8,65 @@ import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import FilmType from '../../types/film-type';
 import ReviewType from '../../types/review-type';
-import {useAppDispatch} from '../../hooks';
-import {fillFilms, filterFilmsByCurrentGenre} from '../../store/action';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {filterFilmsByCurrentGenre} from '../../store/action';
+import Spinner from '../spinner/spinner';
 
 type AppProps = {
-  films: FilmType[];
   reviews: ReviewType[];
 }
 
 function App(props: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
-  dispatch(fillFilms(props.films));
   dispatch(filterFilmsByCurrentGenre());
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path={AppRoute.Main}
-          element={<MainScreen/>}
-        />
-        <Route
-          path={AppRoute.SignIn}
-          element={<SignInScreen />}
-        />
-        <Route
-          path={AppRoute.MyList}
-          element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
-            >
-              <MyListScreen films={props.films} />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Film}
-          element={<FilmPageScreen films={props.films} reviews={props.reviews} />}
-        />
-        <Route
-          path={AppRoute.AddReview}
-          element={<AddReviewScreen films={props.films} />}
-        />
-        <Route
-          path={AppRoute.Player}
-          element={<PlayerScreen films={props.films} />}
-        />
-        <Route
-          path={AppRoute.NotFound}
-          element={<NotFoundScreen />}
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+  if (isDataLoading) {
+    return (<Spinner/>);
+  }
+  else {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path={AppRoute.Main}
+            element={<MainScreen/>}
+          />
+          <Route
+            path={AppRoute.SignIn}
+            element={<SignInScreen />}
+          />
+          <Route
+            path={AppRoute.MyList}
+            element={
+              <PrivateRoute
+                authorizationStatus={AuthorizationStatus.Auth}
+              >
+                <MyListScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Film}
+            element={<FilmPageScreen reviews={props.reviews} />}
+          />
+          <Route
+            path={AppRoute.AddReview}
+            element={<AddReviewScreen />}
+          />
+          <Route
+            path={AppRoute.Player}
+            element={<PlayerScreen />}
+          />
+          <Route
+            path={AppRoute.NotFound}
+            element={<NotFoundScreen />}
+          />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
