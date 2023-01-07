@@ -1,16 +1,18 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {ALL_GENRES, DEFAULT_GENRE} from '../const';
-import {changeGenre, fillFilms, filterFilmsByCurrentGenre} from './action';
+import {changeGenre, fillFilms, filterFilmsByCurrentGenre, setDataLoading} from './action';
 import FilmType from '../types/film-type';
 
 const initState : {
   films: FilmType[],
   filteredFilms: FilmType[],
-  currentGenre: string
+  currentGenre: string,
+  isDataLoading: boolean,
 } = {
   films: [],
   filteredFilms: [],
-  currentGenre: DEFAULT_GENRE
+  currentGenre: DEFAULT_GENRE,
+  isDataLoading: false,
 };
 
 const reducer = createReducer(initState, ((builder) => {
@@ -23,7 +25,9 @@ const reducer = createReducer(initState, ((builder) => {
     }))
     .addCase(filterFilmsByCurrentGenre, (state) => {
       state.filteredFilms = state.currentGenre === ALL_GENRES ? state.films : state.films.filter((film) => film.genre === state.currentGenre);
-    });
+    }).addCase(setDataLoading, ((state, action) => {
+      state.isDataLoading = action.payload;
+    }));
 }));
 
 export default reducer;

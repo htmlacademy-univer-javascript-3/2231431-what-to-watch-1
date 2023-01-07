@@ -2,16 +2,14 @@ import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import FilmType from '../../types/film-type';
 import ReviewForm from '../../components/review-form/review-form';
+import {useAppSelector} from '../../hooks';
 
-type AddReviewScreenProps = {
-  films: FilmType[];
-}
 
-function AddReviewScreen(props: AddReviewScreenProps) {
+function AddReviewScreen() {
   const id = Number(useParams().id);
-  const film = props.films.find((f) => f.id === id);
+  const films = useAppSelector((state) => state.films);
+  const film = films.find((f) => f.id === id);
 
   if (!film){
     return (<Navigate to={AppRoute.NotFound} />);
