@@ -2,6 +2,8 @@ import FilmType from '../../types/film-type';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Player from '../player/player';
+import {useAppDispatch} from '../../hooks';
+import {redirectToRoute} from '../../store/action';
 
 type FilmCardProps = {
   film: FilmType;
@@ -11,6 +13,7 @@ type FilmCardProps = {
 
 function FilmCard(props: FilmCardProps): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (props.isActive){
       const timer = setTimeout(() => setIsPlaying(true), 1000);
@@ -25,6 +28,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
       className="small-film-card catalog__films-card"
       onMouseEnter={() => props.setActiveFilmCard(props.film.id)}
       onMouseLeave={() => props.setActiveFilmCard(NaN)}
+      onClick={() => dispatch(redirectToRoute(`/films/${props.film.id}`))}
     >
       <div className="small-film-card__image">
         {isPlaying ?
