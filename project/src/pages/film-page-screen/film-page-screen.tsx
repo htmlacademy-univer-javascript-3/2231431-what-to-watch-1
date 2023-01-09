@@ -2,11 +2,12 @@ import Footer from '../../components/footer/footer';
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
 import {Link, Navigate, useParams} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import Tabs from '../../components/tabs/tabs';
 import ReviewType from '../../types/review-type';
 import RelatedFilms from '../../components/related-films/related-films';
 import {useAppSelector} from '../../hooks';
+import SignIn from '../../components/sign-in/sign-in';
 
 
 type FilmPageScreenProps = {
@@ -14,6 +15,7 @@ type FilmPageScreenProps = {
 }
 
 function FilmPageScreen(props: FilmPageScreenProps) {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const id = Number(useParams().id);
   const films = useAppSelector((state) => state.films);
   const film = films.find((f) => f.id === id);
@@ -35,7 +37,7 @@ function FilmPageScreen(props: FilmPageScreenProps) {
           <header className="page-header film-card__head">
             <Logo />
 
-            <SignOut />
+            {authorizationStatus === AuthorizationStatus.Auth ? <SignOut /> : <SignIn />}
           </header>
 
           <div className="film-card__wrap">

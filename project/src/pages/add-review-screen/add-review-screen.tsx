@@ -1,15 +1,17 @@
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
 import {Link, Navigate, useParams} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import {useAppSelector} from '../../hooks';
+import SignIn from '../../components/sign-in/sign-in';
 
 
 function AddReviewScreen() {
   const id = Number(useParams().id);
   const films = useAppSelector((state) => state.films);
   const film = films.find((f) => f.id === id);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   if (!film){
     return (<Navigate to={AppRoute.NotFound} />);
@@ -38,7 +40,7 @@ function AddReviewScreen() {
             </ul>
           </nav>
 
-          <SignOut />
+          {authorizationStatus === AuthorizationStatus.Auth ? <SignOut /> : <SignIn />}
         </header>
 
         <div className="film-card__poster film-card__poster--small">

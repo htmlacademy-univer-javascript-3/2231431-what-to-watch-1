@@ -5,13 +5,15 @@ import {Link} from 'react-router-dom';
 import GenresList from '../../components/genres-list/genres-list';
 import {useAppSelector} from '../../hooks';
 import {useState} from 'react';
-import {FILM_IN_PAGE} from '../../const';
+import {AuthorizationStatus, FILM_IN_PAGE} from '../../const';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import SignIn from '../../components/sign-in/sign-in';
 
 
 function MainScreen(): JSX.Element {
   const films = useAppSelector((state) => state.films);
   const filteredFilms = useAppSelector((state) => state.filteredFilms);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const [showedFilmsCount, changeShowedFilmsCount] = useState<number>(FILM_IN_PAGE);
   return (
     <>
@@ -31,7 +33,7 @@ function MainScreen(): JSX.Element {
             </a>
           </div>
 
-          <SignOut />
+          {authorizationStatus === AuthorizationStatus.Auth ? <SignOut /> : <SignIn />}
         </header>
 
         <div className="film-card__wrap">

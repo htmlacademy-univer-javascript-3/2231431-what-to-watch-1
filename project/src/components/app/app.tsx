@@ -1,5 +1,5 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {Route, Routes} from 'react-router-dom';
+import {AppRoute} from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
@@ -12,6 +12,8 @@ import ReviewType from '../../types/review-type';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {filterFilmsByCurrentGenre} from '../../store/action';
 import Spinner from '../spinner/spinner';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../services/browser-history';
 
 type AppProps = {
   reviews: ReviewType[];
@@ -27,7 +29,7 @@ function App(props: AppProps): JSX.Element {
   }
   else {
     return (
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={AppRoute.Main}
@@ -40,9 +42,7 @@ function App(props: AppProps): JSX.Element {
           <Route
             path={AppRoute.MyList}
             element={
-              <PrivateRoute
-                authorizationStatus={AuthorizationStatus.Auth}
-              >
+              <PrivateRoute>
                 <MyListScreen />
               </PrivateRoute>
             }
@@ -64,7 +64,7 @@ function App(props: AppProps): JSX.Element {
             element={<NotFoundScreen />}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     );
   }
 }
