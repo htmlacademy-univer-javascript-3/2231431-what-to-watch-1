@@ -1,30 +1,46 @@
 import Footer from '../../components/footer/footer';
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
-import {Link, Navigate, useParams} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {Link, useParams} from 'react-router-dom';
+import {AuthorizationStatus} from '../../const';
 import Tabs from '../../components/tabs/tabs';
-import ReviewType from '../../types/review-type';
 import RelatedFilms from '../../components/related-films/related-films';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import SignIn from '../../components/sign-in/sign-in';
+import {loadFilmById, loadReviews, loadSimilarFilms} from '../../store/action';
+import {useEffect} from 'react';
+import Spinner from '../../components/spinner/spinner';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 
-type FilmPageScreenProps = {
-  reviews: ReviewType[];
-}
-
-function FilmPageScreen(props: FilmPageScreenProps) {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+function FilmPageScreen() {
+  const dispatch = useAppDispatch();
   const id = Number(useParams().id);
-  const films = useAppSelector((state) => state.films);
-  const film = films.find((f) => f.id === id);
+
+  useEffect(() => {
+    dispatch(loadFilmById(id));
+    dispatch(loadReviews(id));
+    dispatch(loadSimilarFilms(id));
+  }, [id, dispatch]);
+
+  const isFilmLoading = useAppSelector((state) => state.isFilmLoading);
+  const isReviewsLoading = useAppSelector((state) => state.isReviewsLoading);
+  const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
+
+  const reviews = useAppSelector((state) => state.reviews);
+  const similarFilms = useAppSelector((state) => state.similarFilms);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const film = useAppSelector((state) => state.currentFilm);
+
+  if (isFilmLoading || isReviewsLoading || isSimilarFilmsLoading){
+    return <Spinner />;
+  }
 
   if (!film){
-    return (<Navigate to={AppRoute.NotFound} />);
+    return (<NotFoundScreen/>);
   }
-  else
-  {return (
+
+  return (
     <>
       <section style={{'background': `${film.backgroundColor}`}} className="film-card film-card--full">
         <div className="film-card__hero">
@@ -62,7 +78,8 @@ function FilmPageScreen(props: FilmPageScreenProps) {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
+                {authorizationStatus === AuthorizationStatus.Auth &&
+                <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -73,7 +90,7 @@ function FilmPageScreen(props: FilmPageScreenProps) {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={`${film.name} poster`} width="218" height="327"/>
             </div>
-            <Tabs film={film} reviews={props.reviews} />
+            <Tabs film={film} reviews={reviews} />
           </div>
         </div>
       </section>
@@ -83,14 +100,14 @@ function FilmPageScreen(props: FilmPageScreenProps) {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <RelatedFilms films={films} currentFilm={film} />
+            <RelatedFilms films={similarFilms} currentFilm={film} />
           </div>
         </section>
 
         <Footer/>
       </div>
     </>
-  );}
+  );
 }
 
 export default FilmPageScreen;

@@ -1,6 +1,6 @@
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
-import {Link, Navigate, useParams} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import {useAppSelector} from '../../hooks';
@@ -8,10 +8,9 @@ import SignIn from '../../components/sign-in/sign-in';
 
 
 function AddReviewScreen() {
-  const id = Number(useParams().id);
-  const films = useAppSelector((state) => state.films);
-  const film = films.find((f) => f.id === id);
+  const film = useAppSelector((state) => state.currentFilm);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
 
   if (!film){
     return (<Navigate to={AppRoute.NotFound} />);
