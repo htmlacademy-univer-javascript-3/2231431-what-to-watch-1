@@ -11,6 +11,14 @@ import {loadFilmById, loadReviews, loadSimilarFilms} from '../../store/action';
 import {useEffect} from 'react';
 import Spinner from '../../components/spinner/spinner';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {
+  getCurrentFilm,
+  getIsFilmLoading,
+  getIsReviewsLoading,
+  getIsSimilarFilmsLoading,
+  getReviews, getSimilarFilms
+} from '../../store/film-process/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 
 function FilmPageScreen() {
@@ -23,14 +31,14 @@ function FilmPageScreen() {
     dispatch(loadSimilarFilms(id));
   }, [id, dispatch]);
 
-  const isFilmLoading = useAppSelector((state) => state.isFilmLoading);
-  const isReviewsLoading = useAppSelector((state) => state.isReviewsLoading);
-  const isSimilarFilmsLoading = useAppSelector((state) => state.isSimilarFilmsLoading);
+  const isFilmLoading = useAppSelector(getIsFilmLoading);
+  const isReviewsLoading = useAppSelector(getIsReviewsLoading);
+  const isSimilarFilmsLoading = useAppSelector(getIsSimilarFilmsLoading);
 
-  const reviews = useAppSelector((state) => state.reviews);
-  const similarFilms = useAppSelector((state) => state.similarFilms);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const film = useAppSelector((state) => state.currentFilm);
+  const reviews = useAppSelector(getReviews);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const film = useAppSelector(getCurrentFilm);
 
   if (isFilmLoading || isReviewsLoading || isSimilarFilmsLoading){
     return <Spinner />;

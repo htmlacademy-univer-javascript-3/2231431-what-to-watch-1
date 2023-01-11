@@ -3,13 +3,14 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {addReview} from '../../store/action';
 import {Navigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
+import {getCurrentFilm} from '../../store/film-process/selectors';
 
 function ReviewForm() {
   const [reviewData, setReviewData] = useState({rating: 8, text: '',});
 
   const dispatch = useAppDispatch();
 
-  const film = useAppSelector((state) => state.currentFilm);
+  const film = useAppSelector(getCurrentFilm);
 
   if (!film){
     return (<Navigate to={AppRoute.NotFound} />);

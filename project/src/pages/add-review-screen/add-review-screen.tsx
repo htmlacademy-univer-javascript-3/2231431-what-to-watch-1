@@ -5,11 +5,13 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
 import {useAppSelector} from '../../hooks';
 import SignIn from '../../components/sign-in/sign-in';
+import {getCurrentFilm} from '../../store/film-process/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 
 function AddReviewScreen() {
-  const film = useAppSelector((state) => state.currentFilm);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const film = useAppSelector(getCurrentFilm);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
 
   if (!film){
