@@ -3,10 +3,11 @@ import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
 import FilmList from '../../components/film-list/film-list';
 import {useAppSelector} from '../../hooks';
+import {getFilms} from '../../store/films-process/selectors';
 
 
 function MyListScreen(): JSX.Element {
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector(getFilms);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

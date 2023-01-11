@@ -23,6 +23,13 @@ export enum ApiRoute {
   Similar = '/similar',
 }
 
+export enum NameSpace {
+  Films = 'FILMS',
+  Film = 'FILM',
+  User = 'USER',
+  Error = 'ERROR',
+}
+
 export const ALL_GENRES = 'All genres';
 export const DEFAULT_GENRE = ALL_GENRES;
 

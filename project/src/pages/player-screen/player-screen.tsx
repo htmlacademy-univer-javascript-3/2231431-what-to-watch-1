@@ -1,10 +1,11 @@
 import {Link, Navigate, useParams} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
+import {getFilms} from '../../store/films-process/selectors';
 
 function PlayerScreen() {
   const id = Number(useParams().id);
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector(getFilms);
   const film = films.find((f) => f.id === id);
 
   if (!film){

@@ -8,23 +8,21 @@ import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {filterFilmsByCurrentGenre} from '../../store/action';
+import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../services/browser-history';
+import {getIsFilmsLoading} from '../../store/films-process/selectors';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-  dispatch(filterFilmsByCurrentGenre());
-  const isDataLoading = useAppSelector((state) => state.isFilmsLoading);
+  const isFilmsLoading = useAppSelector(getIsFilmsLoading);
 
-  if (isDataLoading) {
+  if (isFilmsLoading) {
     return (<Spinner/>);
   }
   return (
     <HistoryRouter history={browserHistory}>
-      {isDataLoading && <Spinner/>}
+      {isFilmsLoading && <Spinner/>}
       <Routes>
         <Route
           path={AppRoute.Main}

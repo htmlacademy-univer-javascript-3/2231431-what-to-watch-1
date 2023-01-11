@@ -8,12 +8,14 @@ import {useState} from 'react';
 import {AppRoute, AuthorizationStatus, FILM_IN_PAGE} from '../../const';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import SignIn from '../../components/sign-in/sign-in';
+import {getFilteredFilms, getPromoFilm} from '../../store/films-process/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 
 function MainScreen(): JSX.Element {
-  const promoFilm = useAppSelector((state) => state.promoFilm);
-  const filteredFilms = useAppSelector((state) => state.filteredFilms);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const filteredFilms = useAppSelector(getFilteredFilms);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const [showedFilmsCount, changeShowedFilmsCount] = useState<number>(FILM_IN_PAGE);
   if (promoFilm === null){
     return <NavLink to={AppRoute.NotFound} />;

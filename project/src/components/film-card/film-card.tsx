@@ -1,6 +1,6 @@
 import FilmType from '../../types/film-type';
 import {Link} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import Player from '../player/player';
 import {useAppDispatch} from '../../hooks';
 import {redirectToRoute} from '../../store/action';
@@ -41,4 +41,4 @@ function FilmCard(props: FilmCardProps): JSX.Element {
     </article>);
 }
 
-export default FilmCard;
+export default memo(FilmCard);
