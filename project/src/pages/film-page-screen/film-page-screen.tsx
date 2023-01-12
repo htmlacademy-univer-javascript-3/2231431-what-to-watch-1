@@ -19,6 +19,7 @@ import {
   getReviews, getSimilarFilms
 } from '../../store/film-process/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import ToMyListButton from '../../components/to-my-list-button/to-my-list-button';
 
 
 function FilmPageScreen() {
@@ -79,13 +80,9 @@ function FilmPageScreen() {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add" />
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+
+                <ToMyListButton film={film} />
+
                 {authorizationStatus === AuthorizationStatus.Auth &&
                 <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>}
               </div>

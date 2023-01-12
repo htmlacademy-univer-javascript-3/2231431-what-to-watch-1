@@ -1,7 +1,7 @@
 import {FilmProcess} from '../../types/state-type';
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
-import {loadFilmById, loadReviews, loadSimilarFilms} from '../action';
+import {changeFavoriteStatusFilm, loadFilmById, loadPromoFilm, loadReviews, loadSimilarFilms} from '../action';
 
 const initialState: FilmProcess = {
   currentFilm: null,
@@ -10,6 +10,7 @@ const initialState: FilmProcess = {
   isSimilarFilmsLoading: false,
   reviews: [],
   similarFilms: [],
+  promoFilm: null,
 };
 
 const filmProcess = createSlice({
@@ -53,6 +54,17 @@ const filmProcess = createSlice({
       })
       .addCase(loadReviews.rejected, (state) => {
         state.isReviewsLoading = false;
+      })
+      .addCase(loadPromoFilm.fulfilled, (state, action) => {
+        state.promoFilm = action.payload;
+      })
+      .addCase(changeFavoriteStatusFilm.fulfilled, (state, action) => {
+        if (state.currentFilm && state.currentFilm.id === action.payload.id){
+          state.currentFilm = action.payload;
+        }
+        if (state.promoFilm && state.promoFilm.id === action.payload.id){
+          state.promoFilm = action.payload;
+        }
       });
   }
 });

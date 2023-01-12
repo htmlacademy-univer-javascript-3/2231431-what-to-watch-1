@@ -8,8 +8,10 @@ import {useState} from 'react';
 import {AppRoute, AuthorizationStatus, FILM_IN_PAGE} from '../../const';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import SignIn from '../../components/sign-in/sign-in';
-import {getFilteredFilms, getPromoFilm} from '../../store/films-process/selectors';
+import {getFilteredFilms} from '../../store/films-process/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getPromoFilm} from '../../store/film-process/selectors';
+import ToMyListButton from '../../components/to-my-list-button/to-my-list-button';
 
 
 function MainScreen(): JSX.Element {
@@ -63,13 +65,7 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"/>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <ToMyListButton film={promoFilm} />
               </div>
             </div>
           </div>

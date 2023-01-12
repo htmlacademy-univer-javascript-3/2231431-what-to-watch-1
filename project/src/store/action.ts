@@ -12,15 +12,19 @@ import { setError } from './error-process/error-process';
 
 export const redirectToRoute = createAction<AppRoute | string>('redirectToRoute');
 
-export const loadFilms = createAsyncThunk<FilmType[], undefined, {
+export const loadFilms = createAsyncThunk<FilmType[] | undefined, undefined, {
   dispatch: AppDispatch;
   state: StateType,
   extra: AxiosInstance
 }>(
   'loadFilms',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<FilmType[]>(ApiRoute.Films);
-    return data;
+  async (_arg, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<FilmType[]>(ApiRoute.Films);
+      return data;
+    }catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   }
 );
 
@@ -92,6 +96,34 @@ export const loadPromoFilm = createAsyncThunk<FilmType, undefined, {
   'loadPromoFilm',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<FilmType>(ApiRoute.Promo);
+    return data;
+  }
+);
+
+export const loadFavoriteFilms = createAsyncThunk<FilmType[] | undefined, undefined, {
+  dispatch: AppDispatch;
+  state: StateType,
+  extra: AxiosInstance
+}>(
+  'loadFavoriteFilms',
+  async (_arg, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<FilmType[]>(ApiRoute.Favorite);
+      return data;
+    }catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  }
+);
+
+export const changeFavoriteStatusFilm = createAsyncThunk<FilmType, { filmId: number, status : boolean }, {
+  dispatch: AppDispatch;
+  state: StateType,
+  extra: AxiosInstance
+}>(
+  'changeFavoriteStatusFilm',
+  async ({filmId, status}, {extra: api}) => {
+    const {data} = await api.post<FilmType>(`${ApiRoute.Favorite}/${filmId}/${status ? 0 : 1}`);
     return data;
   }
 );
