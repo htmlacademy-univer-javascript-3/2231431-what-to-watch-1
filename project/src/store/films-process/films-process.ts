@@ -30,6 +30,9 @@ const filmsProcess = createSlice({
         }
         state.isFilmsLoading = false;
       })
+      .addCase(loadFilms.rejected, (state) => {
+        state.isFilmsLoading = false;
+      })
       .addCase(loadFavoriteFilms.pending, (state) => {
         state.isFavoriteFilmsLoading = true;
       })
@@ -37,6 +40,9 @@ const filmsProcess = createSlice({
         if (action.payload){
           state.favoriteFilms = action.payload;
         }
+        state.isFavoriteFilmsLoading = false;
+      })
+      .addCase(loadFavoriteFilms.rejected, (state) => {
         state.isFavoriteFilmsLoading = false;
       });
   }
