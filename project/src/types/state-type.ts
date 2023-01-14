@@ -12,13 +12,15 @@ export type AppDispatch = typeof store.dispatch;
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus,
   user?: UserType,
+  isAuthorizationInProgress: boolean,
 };
 
 export type FilmsProcess = {
   films: FilmType[],
+  favoriteFilms: FilmType[],
   currentGenre: string,
   isFilmsLoading: boolean,
-  promoFilm: FilmType | null,
+  isFavoriteFilmsLoading: boolean,
 };
 
 export type FilmProcess = {
@@ -28,6 +30,7 @@ export type FilmProcess = {
   currentFilm: FilmType | null,
   reviews: ReviewType[],
   similarFilms: FilmType[],
+  promoFilm: FilmType | null,
 };
 
 export type ErrorProcess = {

@@ -6,7 +6,7 @@ import {AppRoute} from '../../const';
 import {getCurrentFilm} from '../../store/film-process/selectors';
 
 function ReviewForm() {
-  const [reviewData, setReviewData] = useState({rating: 8, text: '',});
+  const [reviewData, setReviewData] = useState({rating: 1, text: '',});
 
   const dispatch = useAppDispatch();
 
@@ -31,7 +31,6 @@ function ReviewForm() {
       <form className="add-review__form" onSubmit={handleSubmit}>
         <div className="rating">
           <div className="rating__stars">
-
             {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((rating) => (
               <Fragment key={rating}>
                 <input className="rating__input"
@@ -47,7 +46,7 @@ function ReviewForm() {
         </div>
 
         <div className="add-review__text">
-          <textarea className="add-review__textarea"
+          <textarea required className="add-review__textarea"
             name="text"
             id="review-text"
             placeholder="Review text"
