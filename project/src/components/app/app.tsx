@@ -10,8 +10,6 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {useAppSelector} from '../../hooks';
 import Spinner from '../spinner/spinner';
-import HistoryRouter from '../history-route/history-route';
-import browserHistory from '../../services/browser-history';
 import {getIsFilmsLoading} from '../../store/films-process/selectors';
 
 function App(): JSX.Element {
@@ -21,7 +19,7 @@ function App(): JSX.Element {
     return (<Spinner/>);
   }
   return (
-    <HistoryRouter history={browserHistory}>
+    <>
       {isFilmsLoading && <Spinner/>}
       <Routes>
         <Route
@@ -57,7 +55,7 @@ function App(): JSX.Element {
           element={<NotFoundScreen />}
         />
       </Routes>
-    </HistoryRouter>
+    </>
   );
 }
 
