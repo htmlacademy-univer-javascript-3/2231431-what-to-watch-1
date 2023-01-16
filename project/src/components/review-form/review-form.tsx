@@ -54,7 +54,7 @@ function ReviewForm() {
             onChange={fieldChangeHandle}
           />
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button className="add-review__btn" type="submit" data-testid="post-button">Post</button>
           </div>
 
         </div>

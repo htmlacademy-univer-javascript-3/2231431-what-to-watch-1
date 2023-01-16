@@ -5,12 +5,24 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import {StateType} from '../types/state-type';
 import { Action } from '@reduxjs/toolkit';
 import {ApiRoute} from '../const';
-import {addReview,
+import {
+  addReview,
   changeFavoriteStatusFilm,
   checkAuthorizationStatus,
   clearError,
-  loadFavoriteFilms, loadFilmById, loadFilms, loadPromoFilm, loadReviews, loadSimilarFilms, redirectToRoute} from './action';
-import {getMockFilm, getMockFilms, getMockReviews, getMockUser} from '../utils/mocks';
+  loadFavoriteFilms,
+  loadFilmById,
+  loadFilms,
+  loadPromoFilm,
+  loadReviews,
+  loadSimilarFilms,
+  login,
+  logout,
+  redirectToRoute
+} from './action';
+import {getAuthData, getMockFilm, getMockFilms, getMockReviews, getMockUser} from '../utils/mocks';
+import AuthorizationData from '../types/authorization-data-type';
+import { AUTHORIZATION_TOKEN_KEY_NAME } from '../services/token';
 
 
 jest.mock('../services/process-error-handle.ts');
@@ -167,6 +179,48 @@ describe('Async action', () => {
       checkAuthorizationStatus.pending.type,
       checkAuthorizationStatus.fulfilled.type,
     ]);
+  });
+
+  it('should login.fulfilled when server returned 200', async () => {
+    const mockAuthData: AuthorizationData = getAuthData();
+    const store = mockStore();
+    Storage.prototype.setItem = jest.fn();
+
+    mockAPI.onPost(ApiRoute.Login, mockAuthData).reply(200, {token: 'secretToken'});
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(login(mockAuthData));
+    const actions = store.getActions().map(({type}) => type);
+
+    expect(actions).toEqual([
+      login.pending.type,
+      redirectToRoute.type,
+      login.fulfilled.type,
+    ]);
+
+    expect(Storage.prototype.setItem).toBeCalledTimes(1);
+    expect(Storage.prototype.setItem).toBeCalledWith(AUTHORIZATION_TOKEN_KEY_NAME, 'secretToken');
+  });
+
+  it('should logout.fulfilled when server returned 204', async () => {
+    const store = mockStore();
+    Storage.prototype.removeItem = jest.fn();
+
+    mockAPI.onDelete(ApiRoute.Logout).reply(204);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(logout());
+    const actions = store.getActions().map(({type}) => type);
+
+    expect(actions).toEqual([
+      logout.pending.type,
+      logout.fulfilled.type,
+    ]);
+
+    expect(Storage.prototype.removeItem).toBeCalledTimes(1);
+    expect(Storage.prototype.removeItem).toBeCalledWith(AUTHORIZATION_TOKEN_KEY_NAME);
   });
 
   it('should clearError.fulfilled when server returned 200', async () => {
