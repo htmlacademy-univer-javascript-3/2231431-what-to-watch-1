@@ -1,10 +1,16 @@
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import {FormEvent, useRef} from 'react';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {login} from '../../store/action';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {Navigate} from 'react-router-dom';
+import processErrorHandle from '../../services/process-error-handle';
 
 function SignInScreen(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -14,9 +20,18 @@ function SignInScreen(): JSX.Element {
     event.preventDefault();
 
     if (emailRef.current !== null && passwordRef.current !== null){
-      dispatch(login({password: passwordRef.current?.value, email: emailRef.current.value}));
+      if (/((?:[0-9][a-zA-Z\s])|(?:[a-zA-Z\s][0-9]))/.test(passwordRef.current.value)){
+        dispatch(login({password: passwordRef.current.value, email: emailRef.current.value}));
+      } else{
+        processErrorHandle('Пароль должен содержать хотя бы одну букву и цифру');
+      }
+
     }
   };
+
+  if (authorizationStatus === AuthorizationStatus.Auth){
+    return (<Navigate to={AppRoute.Main} />);
+  }
 
   return (
     <div className="user-page">

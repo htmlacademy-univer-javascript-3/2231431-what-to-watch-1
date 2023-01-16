@@ -1,21 +1,36 @@
 import SignOut from '../../components/sign-out/sign-out';
 import Logo from '../../components/logo/logo';
-import {Link, Navigate} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {Link, useParams} from 'react-router-dom';
+import {AuthorizationStatus} from '../../const';
 import ReviewForm from '../../components/review-form/review-form';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import SignIn from '../../components/sign-in/sign-in';
-import {getCurrentFilm} from '../../store/film-process/selectors';
+import {getCurrentFilm, getIsFilmLoading} from '../../store/film-process/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {useEffect} from 'react';
+import {loadFilmById} from '../../store/action';
+import Spinner from '../../components/spinner/spinner';
 
 
 function AddReviewScreen() {
+  const dispatch = useAppDispatch();
+  const id = Number(useParams().id);
+
+  useEffect(() => {
+    dispatch(loadFilmById(id));
+  }, [id, dispatch]);
+
   const film = useAppSelector(getCurrentFilm);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isFilmLoading = useAppSelector(getIsFilmLoading);
 
+  if (isFilmLoading){
+    return <Spinner />;
+  }
 
   if (!film){
-    return (<Navigate to={AppRoute.NotFound} />);
+    return (<NotFoundScreen />);
   }
   else
   {return (

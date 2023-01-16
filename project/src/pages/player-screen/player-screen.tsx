@@ -1,10 +1,11 @@
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {useEffect, useRef, useState} from 'react';
 import {loadFilmById} from '../../store/action';
 import {getCurrentFilm, getIsFilmLoading,} from '../../store/film-process/selectors';
 import Spinner from '../../components/spinner/spinner';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import browserHistory from '../../services/browser-history';
 
 function PlayerScreen() {
   const dispatch = useAppDispatch();
@@ -78,7 +79,7 @@ function PlayerScreen() {
         onTimeUpdate={handleUpdate}
       />
 
-      <Link to={`/films/${film.id}`} className="player__exit">Exit</Link>
+      <button onClick={browserHistory.back} className="player__exit">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

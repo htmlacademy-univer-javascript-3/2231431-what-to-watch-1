@@ -60,17 +60,27 @@ export const loadReviews = createAsyncThunk<ReviewType[] | undefined, number, {
   }
 );
 
-export const addReview = createAsyncThunk<void, { filmId: number, comment : string, rating : number}, {
-  dispatch: AppDispatch;
+export const addReview = createAsyncThunk<
+  void,
+  { filmId: number, comment : string, rating : number, setFormIsDisabled?: (formDisabled: boolean) => void},
+  {dispatch: AppDispatch;
   state: StateType,
   extra: AxiosInstance
 }>(
-  'addReview',
-  async ({filmId, comment, rating}, {dispatch, extra: api}) => {
-    await api.post<ReviewType[]>(ApiRoute.Reviews + filmId, {comment, rating});
-    dispatch(redirectToRoute(ApiRoute.Films + filmId));
-  }
-);
+    'addReview',
+    async ({filmId, comment, rating, setFormIsDisabled}, {dispatch, extra: api}) => {
+      try {
+        if (setFormIsDisabled)
+        {setFormIsDisabled(true);}
+        await api.post<ReviewType[]>(ApiRoute.Reviews + filmId, {comment, rating});
+        dispatch(redirectToRoute(ApiRoute.Films + filmId));
+      }
+      finally {
+        if (setFormIsDisabled)
+        {setFormIsDisabled(false);}
+      }
+    }
+    );
 
 export const loadSimilarFilms = createAsyncThunk<FilmType[] | undefined, number, {
   dispatch: AppDispatch;
