@@ -25,7 +25,7 @@ const mockStore = configureMockStore<
 const mockFilms = getMockFilms();
 const mockFilm = getMockFilm();
 
-const store = mockStore({
+let store = mockStore({
   [NameSpace.User]: {
     authorizationStatus: AuthorizationStatus.Auth,
     user: undefined,
@@ -54,7 +54,7 @@ const store = mockStore({
 
 const history = createMemoryHistory();
 
-const fakeApp = (
+let fakeApp = (
   <Provider store={store}>
     <HistoryRouter history={history}>
       <App/>
@@ -63,6 +63,43 @@ const fakeApp = (
 );
 
 describe('Application routing', () => {
+  beforeEach(() => {
+    store = mockStore({
+      [NameSpace.User]: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        user: undefined,
+        isAuthorizationInProgress: false,
+      },
+      [NameSpace.Error]: {
+        error: null,
+      },
+      [NameSpace.Film]: {
+        currentFilm: mockFilm,
+        isFilmLoading: false,
+        isReviewsLoading: false,
+        isSimilarFilmsLoading: false,
+        reviews: [],
+        similarFilms: [],
+        promoFilm: mockFilm,
+      },
+      [NameSpace.Films]: {
+        currentGenre: DEFAULT_GENRE,
+        favoriteFilms: mockFilms,
+        films: [],
+        isFilmsLoading: false,
+        isFavoriteFilmsLoading: false,
+      },
+    });
+
+    fakeApp = (
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <App/>
+        </HistoryRouter>
+      </Provider>
+    );
+  });
+
   it('should render main screen when user navigate to AppRoute.Main', () => {
     history.push(AppRoute.Main);
     render(fakeApp);
@@ -74,6 +111,41 @@ describe('Application routing', () => {
   });
 
   it('should render SignIn screen when user navigate to AppRoute.SignIn', () => {
+    store = mockStore({
+      [NameSpace.User]: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+        user: undefined,
+        isAuthorizationInProgress: false,
+      },
+      [NameSpace.Error]: {
+        error: null,
+      },
+      [NameSpace.Film]: {
+        currentFilm: mockFilm,
+        isFilmLoading: false,
+        isReviewsLoading: false,
+        isSimilarFilmsLoading: false,
+        reviews: [],
+        similarFilms: [],
+        promoFilm: mockFilm,
+      },
+      [NameSpace.Films]: {
+        currentGenre: DEFAULT_GENRE,
+        favoriteFilms: mockFilms,
+        films: [],
+        isFilmsLoading: false,
+        isFavoriteFilmsLoading: false,
+      },
+    });
+
+    fakeApp = (
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <App/>
+        </HistoryRouter>
+      </Provider>
+    );
+
     history.push(AppRoute.SignIn);
     render(fakeApp);
 

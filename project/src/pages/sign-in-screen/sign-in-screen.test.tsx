@@ -4,12 +4,13 @@ import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 import SignInScreen from './sign-in-screen';
 import userEvent from '@testing-library/user-event';
+import {AuthorizationStatus, NameSpace } from '../../const';
 
 describe('SignInScreen', () => {
   const mockStore = configureMockStore();
   it('should correct render', async () => {
     render(
-      <Provider store={mockStore({})}>
+      <Provider store={mockStore({[NameSpace.User]: {authorizationStatus: AuthorizationStatus.NoAuth}})}>
         <BrowserRouter>
           <SignInScreen />
         </BrowserRouter>
